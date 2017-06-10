@@ -1,3 +1,5 @@
+import * as path from 'path';
+
 import * as externalValidator from 'validator';
 import * as _ from 'underscore';
 
@@ -17,6 +19,7 @@ import {
 } from './types';
 
 const i18n = new I18n({
+  directoryPath: path.join(__dirname, 'translations'),
   currentLocale: 'en',
   jsonParser: new JSONParser()
 });
