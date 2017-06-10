@@ -4,7 +4,7 @@ type Obj<T> = {
 
 type Data = {
   method: string;
-  values: Obj<string>;
+  values: Obj<any>;
 }
 
 type ValidatorExtension = {
