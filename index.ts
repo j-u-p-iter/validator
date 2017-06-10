@@ -1,5 +1,5 @@
-import validator from './src/base';
+import SchemaValidator from './src/base';
 
 export {
-  validator
+  SchemaValidator
 };
