@@ -29,8 +29,8 @@ class SchemaValidator implements SchemaValidatorInterface {
   private _errors: Error[] = [];
   private _schema: Schema;
 
-  private _getValidationError(message: string) {
-    return new Error(i18n.t(message));
+  private _getValidationError(localeKey: string) {
+    return new Error(i18n.t(localeKey));
   }
 
   private _validate(methodName: string, value: any) {
@@ -42,18 +42,18 @@ class SchemaValidator implements SchemaValidatorInterface {
     const errors: Error[] = [];
 
     if (method !== 'PUT' && rules.required && this._validate('isEmpty', value)) {
-       errors.push(this._getValidationError('Should not be empty'));
+       errors.push(this._getValidationError('validationError'));
     }
 
-    if (this._validate('isEmpty', value)) { return null; }
+    if (this._validate('isEmpty', value)) { return errors; }
 
     if (rules.type) {
       if (rules.type === String && !this._validate('isString', value)) {
-         errors.push(this._getValidationError('Should be a String'));
+         errors.push(this._getValidationError('validationError'));
       }
 
       if (rules.type === Number && !this._validate('isNumber', value)) {
-        errors.push(this._getValidationError('Should be a Number'));
+        errors.push(this._getValidationError('validationError'));
       }
     }
 
