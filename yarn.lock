@@ -12,9 +12,9 @@
   dependencies:
     intl-messageformat "^1.3.0"
 
-"@j.u.p.iter/json-parser@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@j.u.p.iter/json-parser/-/json-parser-1.0.2.tgz#db81bcc8e449b811a2f9978b99f25dfc4e9b48e1"
+"@j.u.p.iter/json-parser@1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@j.u.p.iter/json-parser/-/json-parser-1.0.3.tgz#04694e96b172461f999c6be6a896a095677e160b"
   dependencies:
     "@types/node" "^7.0.29"
 
