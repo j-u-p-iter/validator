@@ -6,9 +6,9 @@
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@j.u.p.iter/errors/-/errors-1.0.0.tgz#5d879498600cb10ad9aafc71400a1c76be329f72"
 
-"@j.u.p.iter/i18n@1.0.7":
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/@j.u.p.iter/i18n/-/i18n-1.0.7.tgz#d809ccf3b595ab890747affea0706ce8098ec161"
+"@j.u.p.iter/i18n@1.0.8":
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/@j.u.p.iter/i18n/-/i18n-1.0.8.tgz#23082c9cb4ffc665a583d7242d555008770cdb08"
   dependencies:
     intl-messageformat "^1.3.0"
 
