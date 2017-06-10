@@ -42,8 +42,8 @@ class SchemaValidator implements SchemaValidatorInterface {
     }
   }
 
-  private _getValidationErrors(collectionName, values, method) {
-    return Object.keys(this._schema[collectionName]).reduce((accumulatedErrors, currentAttribute) => {
+  private _getValidationErrors(collectionName: string, values: Obj<any>, method: string): Error[] {
+    Object.keys(this._schema[collectionName]).reduce((accumulatedErrors, currentAttribute) => {
       const validationError = this._getValidationError(
         values[currentAttribute],
         method,
@@ -54,6 +54,8 @@ class SchemaValidator implements SchemaValidatorInterface {
 
       return accumulatedErrors;
     }, this._errors);
+
+    return this._errors.length ? this._errors : null;
   }
 
   constructor(schema: Schema) {
