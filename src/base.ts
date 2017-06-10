@@ -30,10 +30,30 @@ class SchemaValidator implements SchemaValidatorInterface {
   private _schema: Schema;
   private _controller = externalValidator;
 
+  private _getValidationError(value: any, method: string, rules: SchemaRules) {
+    if (method !== 'PUT' && rules.required && this._controller.isEmpty(value)) {
+      return new Error(i18n.t('validationError'));
+    }
+  }
+
   private _extendExternalValidator(): void {
     const validatorExtender = new ValidatorExtender(this._controller);
 
     validatorExtender.extend(validatorExtension);
+  }
+
+  private _validateData(collectionName, values, method) {
+    return Object.keys(this._schema[collectionName]).reduce((accumulatedErrors, currentAttribute) => {
+      accumulatedErrors.push(
+        this._getValidationError(
+          values[currentAttribute],
+          method,
+          this._schema[collectionName][currentAttribute]
+        )
+      );
+
+      return accumulatedErrors;
+    }, this._errors);
   }
 
   constructor(schema: Schema) {
@@ -45,16 +65,7 @@ class SchemaValidator implements SchemaValidatorInterface {
   public validate(collectionName: string, data: Data): Error[] {
     var { method, values } = data;
 
-    _.each(this._schema[collectionName], (rules: SchemaRules, attributeName: string) => {
-      const currentValue = values[attributeName],
-            { required } = rules;
-
-      if (method !== 'PUT' && required && this._controller.isEmpty(currentValue)) {
-        this._errors.push(new Error(i18n.t('validationError')));
-      }
-    });
-
-    return this._errors;
+    return this._validateData(collectionName, values, method);
   }
 }
 
