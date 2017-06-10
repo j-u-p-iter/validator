@@ -8,7 +8,9 @@ type Data = {
 }
 
 type ValidatorExtension = {
-  isEmpty()
+  isEmpty(value: any): boolean;
+  isString(value: any): boolean;
+  inArray(array: any[], value: any): boolean;
 };
 
 type Schema = {
@@ -35,5 +37,6 @@ export {
   Data,
   SchemaValidatorInterface,
   SchemaRules,
-  Schema
+  Schema,
+  ValidatorExtension
 };

@@ -1,12 +1,16 @@
 import * as _ from 'underscore';
 
+import {
+  ValidatorExtension
+} from './types';
 
-const validatorExtension = {
-  isEmpty(value): boolean { return _.isEmpty(value); },
 
-  isString(value): boolean { return _.isString(value); },
+const validatorExtension: ValidatorExtension = {
+  isEmpty(value: any): boolean { return _.isEmpty(value); },
 
-  inArray(array: any[], value): boolean { return !!~array.indexOf(value); }
+  isString(value: any): boolean { return _.isString(value); },
+
+  inArray(array: any[], value: any): boolean { return !!~array.indexOf(value); }
 };
 
 
