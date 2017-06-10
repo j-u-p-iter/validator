@@ -26,7 +26,6 @@ const i18n = new I18n({
 
 class SchemaValidator implements SchemaValidatorInterface {
 
-  private _errors: Error[] = [];
   private _schema: Schema;
 
   private _getValidationError(localeKey: string) {
@@ -61,7 +60,7 @@ class SchemaValidator implements SchemaValidatorInterface {
   }
 
   private _getValidationErrors(collectionName: string, values: Obj<any>, method: string): Error[] {
-    Object.keys(this._schema[collectionName]).reduce((accumulatedErrors, currentAttribute) => {
+    const errors = Object.keys(this._schema[collectionName]).reduce((accumulatedErrors, currentAttribute) => {
       const validationErrors = this._getAttributeValidationErrors(
         values[currentAttribute],
         method,
@@ -69,9 +68,9 @@ class SchemaValidator implements SchemaValidatorInterface {
       );
 
       return [...accumulatedErrors, ...validationErrors];
-    }, this._errors);
+    }, []);
 
-    return this._errors.length ? this._errors : null;
+    return errors.length ? errors : null;
   }
 
   constructor(schema: Schema) {
