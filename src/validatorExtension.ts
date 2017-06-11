@@ -6,8 +6,6 @@ import {
 
 
 const validatorExtension: ValidatorExtension = {
-  isEmpty(value: any): boolean { return _.isEmpty(value); },
-
   isString(value: any): boolean { return _.isString(value); },
 
   inArray(array: any[], value: any): boolean { return !!~array.indexOf(value); }
