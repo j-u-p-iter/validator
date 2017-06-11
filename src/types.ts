@@ -8,7 +8,6 @@ type Data = {
 }
 
 type ValidatorExtension = {
-  isEmpty(value: any): boolean;
   isString(value: any): boolean;
   inArray(array: any[], value: any): boolean;
 };
@@ -25,6 +24,7 @@ type SchemaRules = {
   unique?: boolean;
   minlength?: number;
   maxlength?: number;
+  validations: Obj<any>;
   default?: any;
 };
 
