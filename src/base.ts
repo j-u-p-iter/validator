@@ -39,9 +39,9 @@ class SchemaValidator implements SchemaValidatorInterface {
 
   private _checkValidations(validations: Obj<any>, value: any): Error[] {
     return Object.keys(validations).reduce((errors, methodToValidate) => {
-      if (this._validate(methodToValidate, value) !== validations[methodToValidate]) { return errors; }
+      if (this._validate(methodToValidate, value) === validations[methodToValidate]) { return errors; }
 
-      return [...errors, new Error('validationError')];
+      return [...errors, this._getValidationError('validationError')];
     }, []);
   }
 
