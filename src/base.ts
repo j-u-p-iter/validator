@@ -32,13 +32,21 @@ class SchemaValidator implements SchemaValidatorInterface {
     return new Error(i18n.t(localeKey));
   }
 
-  private _validate(methodName: string, value: any) {
+  private _validate(methodName: string, value: any, options?: Obj<any>) {
     return externalValidator[methodName] ? externalValidator[methodName](value) :
       validatorExtension[methodName](value);
   }
 
+  private _checkValidations(validations: Obj<any>, value: any): Error[] {
+    return Object.keys(validations).reduce((errors, methodToValidate) => {
+      if (this._validate(methodToValidate, value) !== validations[methodToValidate]) { return errors; }
+
+      return [...errors, new Error('validationError')];
+    }, []);
+  }
+
   private _getAttributeValidationErrors(value: any, method: string, rules: SchemaRules): Error[] {
-    const errors: Error[] = [];
+    let errors: Error[] = [];
 
     if (method !== 'PUT' && rules.required && this._validate('isEmpty', value)) {
        errors.push(this._getValidationError('validationError'));
@@ -47,13 +55,29 @@ class SchemaValidator implements SchemaValidatorInterface {
     if (this._validate('isEmpty', value)) { return errors; }
 
     if (rules.type) {
-      if (rules.type === String && !this._validate('isString', value)) {
-         errors.push(this._getValidationError('validationError'));
-      }
-
-      if (rules.type === Number && !this._validate('isNumber', value)) {
+      if (rules.type === Number && !this._validate('isNumeric', value)) {
         errors.push(this._getValidationError('validationError'));
       }
+
+      if (rules.type === Boolean && !this._validate('isBoolean', value)) {
+        errors.push(this._getValidationError('validationError'));
+      }
+
+      if (rules.type === Date && !this._validate('isDate', value)) {
+        errors.push(this._getValidationError('validationError'));
+      }
+    }
+
+    if (rules.minlength && this._validate('isLength', value, {min: 0, max: rules.minlength - 1})) {
+      errors.push(this._getValidationError('validationError'));
+    }
+
+    if (rules.maxlength && !this._validate('isLength', value, {min: 0, max: rules.maxlength})) {
+      errors.push(this._getValidationError('validationError'));
+    }
+
+    if (rules.validations) {
+      errors = [...errors, ...this._checkValidations(rules.validations, value)];
     }
 
     return errors;
