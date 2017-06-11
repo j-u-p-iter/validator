@@ -18,7 +18,7 @@
   "dependencies": {
     "@j.u.p.iter/errors": "^1.0.0",
     "@j.u.p.iter/i18n": "1.0.8",
-    "@j.u.p.iter/json-parser": "1.0.3",
+    "@j.u.p.iter/json-parser": "1.0.4",
     "underscore": "^1.8.3",
     "validator": "^7.0.0"
   }
