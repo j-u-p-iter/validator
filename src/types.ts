@@ -24,7 +24,7 @@ type SchemaRules = {
   unique?: boolean;
   minlength?: number;
   maxlength?: number;
-  validations: Obj<any>;
+  validations?: Obj<any>;
   default?: any;
 };
 
