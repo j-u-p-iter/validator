@@ -45,6 +45,7 @@ class SchemaValidator implements SchemaValidatorInterface {
   }
 
   private _getAttributeValidationErrors(value: any, method: string, rules: SchemaRules): Error[] {
+    console.log(value);
     let errors: Error[] = [];
 
     if (method !== 'PUT' && rules.required && this._validate('isEmpty', value)) {
