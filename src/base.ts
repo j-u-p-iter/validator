@@ -32,8 +32,8 @@ class SchemaValidator implements SchemaValidatorInterface {
   }
 
   private _validate(methodName: string, value: any, options?: Obj<any>) {
-    return externalValidator[methodName] ? externalValidator[methodName](value) :
-      validatorExtension[methodName](value);
+    return externalValidator[methodName] ? externalValidator[methodName](value, options) :
+      validatorExtension[methodName](value, options);
   }
 
   private _checkValidations(validations: Obj<any>, value: any): Error[] {
