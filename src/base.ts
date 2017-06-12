@@ -48,11 +48,11 @@ class SchemaValidator implements SchemaValidatorInterface {
     console.log(value);
     let errors: Error[] = [];
 
-    if (method !== 'PUT' && rules.required && this._validate('isEmpty', value)) {
+    if (method !== 'PUT' && rules.required && !value) {
        errors.push(this._getValidationError('validationError'));
     }
 
-    if (this._validate('isEmpty', value)) { return errors; }
+    if (!value) { return errors; }
 
     if (rules.type) {
       if (rules.type === Number && !this._validate('isNumeric', value)) {
