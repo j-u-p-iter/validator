@@ -40,40 +40,39 @@ class SchemaValidator implements SchemaValidatorInterface {
     return Object.keys(validations).reduce((errors, methodToValidate) => {
       if (this._validate(methodToValidate, value) === validations[methodToValidate]) { return errors; }
 
-      return [...errors, this._getValidationError('validationError')];
+      return [...errors, this._getValidationError('validationsError')];
     }, []);
   }
 
   private _getAttributeValidationErrors(value: any, method: string, rules: SchemaRules): Error[] {
-    console.log(value);
     let errors: Error[] = [];
 
     if (method !== 'PUT' && rules.required && !value) {
-       errors.push(this._getValidationError('validationError'));
+       errors.push(this._getValidationError('emptyValueError'));
     }
 
     if (!value) { return errors; }
 
     if (rules.type) {
       if (rules.type === Number && !this._validate('isNumeric', value)) {
-        errors.push(this._getValidationError('validationError'));
+        errors.push(this._getValidationError('numericValueError'));
       }
 
       if (rules.type === Boolean && !this._validate('isBoolean', value)) {
-        errors.push(this._getValidationError('validationError'));
+        errors.push(this._getValidationError('booleanValueError'));
       }
 
       if (rules.type === Date && !this._validate('toDate', value)) {
-        errors.push(this._getValidationError('validationError'));
+        errors.push(this._getValidationError('dateValueError'));
       }
     }
 
     if (rules.minlength && this._validate('isLength', value, {min: 0, max: rules.minlength - 1})) {
-      errors.push(this._getValidationError('validationError'));
+      errors.push(this._getValidationError('minLengthValueError'));
     }
 
     if (rules.maxlength && !this._validate('isLength', value, {min: 0, max: rules.maxlength})) {
-      errors.push(this._getValidationError('validationError'));
+      errors.push(this._getValidationError('maxLengthValueError'));
     }
 
     if (rules.validations) {
