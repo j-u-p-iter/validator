@@ -8,6 +8,7 @@ import errors from '@j.u.p.iter/errors';
 import JSONParser from '@j.u.p.iter/json-parser';
 
 import validatorExtension from './validatorExtension';
+import * as translations from './translations';
 
 import {
   Obj,
@@ -19,9 +20,7 @@ import {
 } from './types';
 
 const i18n = new I18n({
-  directoryPath: path.join(__dirname, 'translations'),
-  currentLocale: 'en',
-  jsonParser: new JSONParser()
+  content: translations
 });
 
 class SchemaValidator implements SchemaValidatorInterface {
