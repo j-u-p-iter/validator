@@ -63,7 +63,7 @@ class SchemaValidator implements SchemaValidatorInterface {
         errors.push(this._getValidationError('validationError'));
       }
 
-      if (rules.type === Date && !this._validate('isDate', value)) {
+      if (rules.type === Date && !this._validate('toDate', value)) {
         errors.push(this._getValidationError('validationError'));
       }
     }
