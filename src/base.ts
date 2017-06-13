@@ -48,31 +48,31 @@ class SchemaValidator implements SchemaValidatorInterface {
     let errors: Error[] = [];
 
     if (method !== 'PUT' && rules.required && !value) {
-       errors.push(this._getValidationError('emptyValueError'));
+       errors.push(this._getValidationError('validator.errors.emptyValueError'));
     }
 
     if (!value) { return errors; }
 
     if (rules.type) {
       if (rules.type === Number && !this._validate('isNumeric', value)) {
-        errors.push(this._getValidationError('numericValueError'));
+        errors.push(this._getValidationError('validator.errors.numericValueError'));
       }
 
       if (rules.type === Boolean && !this._validate('isBoolean', value)) {
-        errors.push(this._getValidationError('booleanValueError'));
+        errors.push(this._getValidationError('validator.errors.booleanValueError'));
       }
 
       if (rules.type === Date && !this._validate('toDate', value)) {
-        errors.push(this._getValidationError('dateValueError'));
+        errors.push(this._getValidationError('validator.errors.dateValueError'));
       }
     }
 
     if (rules.minlength && this._validate('isLength', value, {min: 0, max: rules.minlength - 1})) {
-      errors.push(this._getValidationError('minLengthValueError'));
+      errors.push(this._getValidationError('validator.errors.minLengthValueError'));
     }
 
     if (rules.maxlength && !this._validate('isLength', value, {min: 0, max: rules.maxlength})) {
-      errors.push(this._getValidationError('maxLengthValueError'));
+      errors.push(this._getValidationError('validator.errors.maxLengthValueError'));
     }
 
     if (rules.validations) {
