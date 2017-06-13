@@ -97,10 +97,7 @@ class SchemaValidator implements SchemaValidatorInterface {
   constructor(schema: Schema, locale: string) {
     this._schema = schema;
 
-    this._i18n = new I18n({
-      content: translations,
-      locale
-    });
+    this._i18n = new I18n({ content: translations, locale });
   }
 
   public validate(collectionName: string, data: Data): Error[] {
