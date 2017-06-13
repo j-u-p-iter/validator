@@ -25,8 +25,8 @@ class SchemaValidator implements SchemaValidatorInterface {
   private _schema: Schema;
   private _i18n: I18n;
 
-  private _getValidationError(localeKey: string) {
-    return new Error(this._i18n.t(localeKey));
+  private _getValidationError(localeKey: string, data?: Obj<any>) {
+    return new Error(this._i18n.t(localeKey, data));
   }
 
   private _validate(methodName: string, value: any, options?: Obj<any>) {
@@ -42,35 +42,41 @@ class SchemaValidator implements SchemaValidatorInterface {
     }, []);
   }
 
-  private _getAttributeValidationErrors(value: any, method: string, rules: SchemaRules): Error[] {
+  private _getAttributeValidationErrors(value: any, method: string, rules: SchemaRules, currentAttribute: string): Error[] {
     let errors: Error[] = [];
 
     if (method !== 'PUT' && rules.required && !value) {
-       errors.push(this._getValidationError('validator.errors.emptyValueError'));
+       errors.push(this._getValidationError('validator.errors.emptyValueError', {field: currentAttribute}));
     }
 
     if (!value) { return errors; }
 
     if (rules.type) {
       if (rules.type === Number && !this._validate('isNumeric', value)) {
-        errors.push(this._getValidationError('validator.errors.numericValueError'));
+        errors.push(this._getValidationError('validator.errors.numericValueError', {field: currentAttribute}));
       }
 
       if (rules.type === Boolean && !this._validate('isBoolean', value)) {
-        errors.push(this._getValidationError('validator.errors.booleanValueError'));
+        errors.push(this._getValidationError('validator.errors.booleanValueError', {field: currentAttribute}));
       }
 
       if (rules.type === Date && !this._validate('toDate', value)) {
-        errors.push(this._getValidationError('validator.errors.dateValueError'));
+        errors.push(this._getValidationError('validator.errors.dateValueError', {field: currentAttribute}));
       }
     }
 
     if (rules.minlength && this._validate('isLength', value, {min: 0, max: rules.minlength - 1})) {
-      errors.push(this._getValidationError('validator.errors.minLengthValueError'));
+      errors.push(this._getValidationError('validator.errors.minLengthValueError', {
+        field: currentAttribute,
+        length: rules.minlength
+      }));
     }
 
     if (rules.maxlength && !this._validate('isLength', value, {min: 0, max: rules.maxlength})) {
-      errors.push(this._getValidationError('validator.errors.maxLengthValueError'));
+      errors.push(this._getValidationError('validator.errors.maxLengthValueError', {
+        field: currentAttribute,
+        length: rules.maxlength
+      }));
     }
 
     if (rules.validations) {
@@ -85,7 +91,8 @@ class SchemaValidator implements SchemaValidatorInterface {
       const validationErrors = this._getAttributeValidationErrors(
         values[currentAttribute],
         method,
-        this._schema[collectionName][currentAttribute]
+        this._schema[collectionName][currentAttribute],
+        currentAttribute
       );
 
       return [...accumulatedErrors, ...validationErrors];
