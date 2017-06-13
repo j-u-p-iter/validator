@@ -19,16 +19,14 @@ import {
   ValidatorExtension
 } from './types';
 
-const i18n = new I18n({
-  content: translations
-});
 
 class SchemaValidator implements SchemaValidatorInterface {
 
   private _schema: Schema;
+  private _i18n: I18n;
 
   private _getValidationError(localeKey: string) {
-    return new Error(i18n.t(localeKey));
+    return new Error(this._i18n.t(localeKey));
   }
 
   private _validate(methodName: string, value: any, options?: Obj<any>) {
@@ -96,8 +94,13 @@ class SchemaValidator implements SchemaValidatorInterface {
     return errors.length ? errors : null;
   }
 
-  constructor(schema: Schema) {
+  constructor(schema: Schema, locale: string) {
     this._schema = schema;
+
+    this._i18n = new I18n({
+      content: translations,
+      locale
+    });
   }
 
   public validate(collectionName: string, data: Data): Error[] {
