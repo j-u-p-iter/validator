@@ -16,7 +16,7 @@
     "typescript": "^2.3.4"
   },
   "dependencies": {
-    "@j.u.p.iter/errors": "1.0.2",
+    "@j.u.p.iter/errors": "1.0.3",
     "@j.u.p.iter/i18n": "1.0.10",
     "@j.u.p.iter/json-parser": "1.0.4",
     "underscore": "^1.8.3",
