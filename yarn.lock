@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@j.u.p.iter/errors@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@j.u.p.iter/errors/-/errors-1.0.0.tgz#5d879498600cb10ad9aafc71400a1c76be329f72"
+"@j.u.p.iter/errors@1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@j.u.p.iter/errors/-/errors-1.0.1.tgz#9b87ba2ed44cdada19499aba1e11eff1d7a9803a"
 
 "@j.u.p.iter/i18n@1.0.10":
   version "1.0.10"

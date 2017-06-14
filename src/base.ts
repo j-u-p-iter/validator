@@ -4,7 +4,7 @@ import * as externalValidator from 'validator';
 import * as _ from 'underscore';
 
 import I18n from '@j.u.p.iter/i18n';
-import errors from '@j.u.p.iter/errors';
+import { ValidationError } from '@j.u.p.iter/errors';
 import JSONParser from '@j.u.p.iter/json-parser';
 
 import validatorExtension from './validatorExtension';
@@ -26,7 +26,10 @@ class SchemaValidator implements SchemaValidatorInterface {
   private _i18n: I18n;
 
   private _getValidationError(localeKey: string, data?: Obj<any>) {
-    return new Error(this._i18n.t(localeKey, data));
+    return new ValidationError({
+      message: this._i18n.t(localeKey, data),
+      errorAttribute: data.field
+    });
   }
 
   private _validate(methodName: string, value: any, options?: Obj<any>) {
