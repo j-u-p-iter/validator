@@ -3,7 +3,7 @@ type Obj<T> = {
 }
 
 type Data = {
-  method: string;
+  action: string;
   values: Obj<any>;
 }
 

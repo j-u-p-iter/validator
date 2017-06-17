@@ -45,10 +45,10 @@ class SchemaValidator implements SchemaValidatorInterface {
     }, []);
   }
 
-  private _getAttributeValidationErrors(value: any, method: string, rules: SchemaRules, currentAttribute: string): Error[] {
+  private _getAttributeValidationErrors(value: any, action: string, rules: SchemaRules, currentAttribute: string): Error[] {
     let errors: Error[] = [];
 
-    if (method !== 'PUT' && rules.required && !value) {
+    if (action !== 'UPDATE' && rules.required && !value) {
        errors.push(this._getValidationError('validator.errors.emptyValueError', {field: currentAttribute}));
     }
 
@@ -89,11 +89,11 @@ class SchemaValidator implements SchemaValidatorInterface {
     return errors;
   }
 
-  private _getValidationErrors(collectionName: string, values: Obj<any>, method: string): Error[] {
+  private _getValidationErrors(collectionName: string, values: Obj<any>, action: string): Error[] {
     const errors = Object.keys(this._schema[collectionName]).reduce((accumulatedErrors, currentAttribute) => {
       const validationErrors = this._getAttributeValidationErrors(
         values[currentAttribute],
-        method,
+        action,
         this._schema[collectionName][currentAttribute],
         currentAttribute
       );
@@ -111,9 +111,9 @@ class SchemaValidator implements SchemaValidatorInterface {
   }
 
   public validate(collectionName: string, data: Data): Error[] {
-    var { method, values } = data;
+    var { action, values } = data;
 
-    return this._getValidationErrors(collectionName, values, method);
+    return this._getValidationErrors(collectionName, values, action);
   }
 }
 
