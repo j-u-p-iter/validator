@@ -29,7 +29,7 @@ type SchemaRules = {
 };
 
 interface SchemaValidatorInterface {
-  validate(collectionName: string, data: Data): Error[];
+  validate(collectionName: string, data: Data, fieldsToExclude?: string[]): Error[];
 }
 
 export {

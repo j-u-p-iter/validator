@@ -104,16 +104,29 @@ class SchemaValidator implements SchemaValidatorInterface {
     return errors.length ? errors : null;
   }
 
+  private _filterFields(values: Obj<any>, fieldsToExclude: string[]): Obj<any> {
+    return Object.keys(values).reduce((result, currentFieldName) => {
+      !~fieldsToExclude.indexOf(currentFieldName) &&
+        (result[currentFieldName] = values[currentFieldName]);
+
+      return result;
+    }, {});
+  }
+
   constructor(schema: Schema, locale: string) {
     this._schema = schema;
 
     this._i18n = new I18n({ content: translations, locale });
   }
 
-  public validate(collectionName: string, data: Data): Error[] {
+  public validate(collectionName: string, data: Data, fieldsToExclude?: string[]): Error[] {
     var { action, values } = data;
 
-    return this._getValidationErrors(collectionName, values, action);
+    return this._getValidationErrors(
+      collectionName,
+      this._filterFields(values, fieldsToExclude),
+      action
+    );
   }
 }
 
