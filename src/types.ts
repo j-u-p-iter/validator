@@ -5,6 +5,7 @@ type Obj<T> = {
 type Data = {
   action: string;
   values: Obj<any>;
+  fieldsToExclude: string[];
 }
 
 type ValidatorExtension = {
@@ -29,7 +30,7 @@ type SchemaRules = {
 };
 
 interface SchemaValidatorInterface {
-  validate(collectionName: string, data: Data, fieldsToExclude?: string[]): Error[];
+  validate(collectionName: string, data: Data): Error[];
 }
 
 export {

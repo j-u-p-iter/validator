@@ -89,21 +89,6 @@ class SchemaValidator implements SchemaValidatorInterface {
     return errors;
   }
 
-  private _getValidationErrors(collectionName: string, values: Obj<any>, action: string): Error[] {
-    const errors = Object.keys(this._schema[collectionName]).reduce((accumulatedErrors, currentAttribute) => {
-      const validationErrors = this._getAttributeValidationErrors(
-        values[currentAttribute],
-        action,
-        this._schema[collectionName][currentAttribute],
-        currentAttribute
-      );
-
-      return [...accumulatedErrors, ...validationErrors];
-    }, []);
-
-    return errors.length ? errors : null;
-  }
-
   private _filterFields(values: Obj<any>, fieldsToExclude: string[]): Obj<any> {
     return Object.keys(values).reduce((result, currentFieldName) => {
       !~fieldsToExclude.indexOf(currentFieldName) &&
@@ -119,14 +104,21 @@ class SchemaValidator implements SchemaValidatorInterface {
     this._i18n = new I18n({ content: translations, locale });
   }
 
-  public validate(collectionName: string, data: Data, fieldsToExclude?: string[]): Error[] {
-    var { action, values } = data;
+  public validate(collectionName: string, data: Data): Error[] {
+    const { action, values, fieldsToExclude } = data;
 
-    return this._getValidationErrors(
-      collectionName,
-      this._filterFields(values, fieldsToExclude),
-      action
-    );
+    const errors = Object.keys(this._filterFields(this._schema[collectionName], fieldsToExclude)).reduce((accumulatedErrors, currentAttribute) => {
+      const validationErrors = this._getAttributeValidationErrors(
+        values[currentAttribute],
+        action,
+        this._schema[collectionName][currentAttribute],
+        currentAttribute
+      );
+
+      return [...accumulatedErrors, ...validationErrors];
+    }, []);
+
+    return errors.length ? errors : null;
   }
 }
 
