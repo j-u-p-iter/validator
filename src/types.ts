@@ -5,7 +5,7 @@ type Obj<T> = {
 type Data = {
   action: string;
   values: Obj<any>;
-  fieldsToExclude: string[];
+  fieldsToExclude?: string[];
 }
 
 type ValidatorExtension = {
