@@ -105,9 +105,11 @@ class SchemaValidator implements SchemaValidatorInterface {
   }
 
   public validate(collectionName: string, data: Data): Error[] {
-    const { action, values, fieldsToExclude } = data;
+    const { action, values, fieldsToExclude } = data,
+          currentSchema = this._schema[collectionName],
+          schemaToValidate = fieldsToExclude ? this._filterFields(currentSchema, fieldsToExclude) : currentSchema;
 
-    const errors = Object.keys(this._filterFields(this._schema[collectionName], fieldsToExclude)).reduce((accumulatedErrors, currentAttribute) => {
+    const errors = Object.keys(schemaToValidate).reduce((accumulatedErrors, currentAttribute) => {
       const validationErrors = this._getAttributeValidationErrors(
         values[currentAttribute],
         action,
