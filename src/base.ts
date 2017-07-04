@@ -45,10 +45,10 @@ class SchemaValidator implements SchemaValidatorInterface {
     }, []);
   }
 
-  private _getAttributeValidationErrors(value: any, action: string, rules: SchemaRules, currentAttribute: string): Error[] {
+  private _getAttributeValidationErrors(value: any, rules: SchemaRules, currentAttribute: string): Error[] {
     let errors: Error[] = [];
 
-    if (action !== 'UPDATE' && rules.required && !value) {
+    if (rules.required && !value) {
        errors.push(this._getValidationError('validator.errors.emptyValueError', {field: currentAttribute}));
     }
 
@@ -68,7 +68,7 @@ class SchemaValidator implements SchemaValidatorInterface {
       }
     }
 
-    if (rules.minlength && this._validate('isLength', value, {min: 0, max: rules.minlength - 1})) {
+    if (rules.minlength && this._validate('isLength', value, { min: 0, max: rules.minlength - 1 })) {
       errors.push(this._getValidationError('validator.errors.minLengthValueError', {
         field: currentAttribute,
         length: rules.minlength
@@ -105,14 +105,13 @@ class SchemaValidator implements SchemaValidatorInterface {
   }
 
   public validate(collectionName: string, data: Data): Error[] {
-    const { action, values, fieldsToExclude } = data,
+    const { values, fieldsToExclude } = data,
           currentSchema = this._schema[collectionName],
           schemaToValidate = fieldsToExclude ? this._filterFields(currentSchema, fieldsToExclude) : currentSchema;
 
     const errors = Object.keys(schemaToValidate).reduce((accumulatedErrors, currentAttribute) => {
       const validationErrors = this._getAttributeValidationErrors(
         values[currentAttribute],
-        action,
         this._schema[collectionName][currentAttribute],
         currentAttribute
       );
