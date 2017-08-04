@@ -6,7 +6,8 @@ export default {
       booleanValueError: 'Значение поля [{field}] должно быть true или false.',
       dateValueError: 'Значение поля [{field}] должно быть датой',
       minLengthValueError: 'Длина значения [{field}] не должна быть меньше {length}.',
-      maxLengthValueError: 'Длина значения [{field}] не должна превышать {length}.'
+      maxLengthValueError: 'Длина значения [{field}] не должна превышать {length}.',
+      isEmail: 'Значение поля [{field}] должно содержать корректный email.',
     }
   }
 }
