@@ -37,11 +37,13 @@ class SchemaValidator implements SchemaValidatorInterface {
       validatorExtension[methodName](value, options);
   }
 
-  private _checkValidations(validations: Obj<any>, value: any): Error[] {
+  private _checkValidations(validations: Obj<any>, value: any, currentAttribute: string): Error[] {
     return Object.keys(validations).reduce((errors, methodToValidate) => {
       if (this._validate(methodToValidate, value) === validations[methodToValidate]) { return errors; }
 
-      return [...errors, this._getValidationError(`validator.errors.${methodToValidate}`)];
+      return [...errors, this._getValidationError(`validator.errors.${methodToValidate}`, {
+        field: currentAttribute
+      })];
     }, []);
   }
 
@@ -83,7 +85,7 @@ class SchemaValidator implements SchemaValidatorInterface {
     }
 
     if (rules.validations) {
-      errors = [...errors, ...this._checkValidations(rules.validations, value)];
+      errors = [...errors, ...this._checkValidations(rules.validations, value, currentAttribute)];
     }
 
     return errors;
