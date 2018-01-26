@@ -100,10 +100,10 @@ class SchemaValidator implements SchemaValidatorInterface {
     }, {});
   }
 
-  constructor(schema: Schema, locales = null, locale: string = 'ru') {
+  constructor(schema: Schema, locales = {}, locale: string = 'ru') {
     this._schema = schema;
 
-    this._i18n = new I18n({ content: defaultLocales || locales, locale });
+    this._i18n = new I18n({ content: { ...defaultLocales, ...locales }, locale });
   }
 
   public validate(collectionName: string, data: Data): Error[] {
