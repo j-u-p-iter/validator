@@ -8,7 +8,7 @@ import { ValidationError } from '@j.u.p.iter/errors';
 import JSONParser from '@j.u.p.iter/json-parser';
 
 import validatorExtension from './validatorExtension';
-import * as translations from './translations';
+import * as defaultLocales from './locales';
 
 import {
   Obj,
@@ -100,10 +100,10 @@ class SchemaValidator implements SchemaValidatorInterface {
     }, {});
   }
 
-  constructor(schema: Schema, locale: string) {
+  constructor(schema: Schema, locales = null, locale: string = 'ru') {
     this._schema = schema;
 
-    this._i18n = new I18n({ content: translations, locale });
+    this._i18n = new I18n({ content: defaultLocales || locales, locale });
   }
 
   public validate(collectionName: string, data: Data): Error[] {
