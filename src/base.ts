@@ -20,6 +20,7 @@ import {
 } from './types';
 
 
+console.log('hello');
 class SchemaValidator implements SchemaValidatorInterface {
 
   private _schema: Schema;
@@ -100,10 +101,10 @@ class SchemaValidator implements SchemaValidatorInterface {
     }, {});
   }
 
-  constructor(schema: Schema, locales = {}, locale: string = 'ru') {
+  constructor(schema: Schema, locales: Obj<any> = {}, locale: string = 'ru') {
     this._schema = schema;
 
-    this._i18n = new I18n({ content: { ...defaultLocales, ...locales }, locale });
+    this._i18n = new I18n({ content: {validator: { ...defaultLocales.validator, ...locales.validator }}, locale });
   }
 
   public validate(collectionName: string, data: Data): Error[] {
