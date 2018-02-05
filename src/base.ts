@@ -2,13 +2,14 @@ import * as path from 'path';
 
 import * as externalValidator from 'validator';
 import * as _ from 'underscore';
+import { mergeDeepRight } from 'ramda';
 
 import I18n from '@j.u.p.iter/i18n';
 import { ValidationError } from '@j.u.p.iter/errors';
 import JSONParser from '@j.u.p.iter/json-parser';
 
 import validatorExtension from './validatorExtension';
-import * as locales from './locales';
+import * as defaultLocales from './locales';
 
 import {
   Obj,
@@ -100,12 +101,10 @@ class SchemaValidator implements SchemaValidatorInterface {
     }, {});
   }
 
-  constructor(schema: Schema, newLocales: Obj<any> = {}, locale: string = 'ru') {
-    const defaultLocales: Obj<any> = locales;
-
+  constructor(schema: Schema, locales: Obj<any> = {}, locale: string = 'ru') {
     this._schema = schema;
 
-    this._i18n = new I18n({ content: { validator: { ...defaultLocales.validator, ...newLocales.validator }}, locale });
+    this._i18n = new I18n({ content: mergeDeepRight(defaultLocales, locales), locale });
   }
 
   public validate(collectionName: string, data: Data): Error[] {
